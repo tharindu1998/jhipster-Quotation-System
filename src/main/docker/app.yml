@@ -1,0 +1,23 @@
+version: '2'
+services:
+  jhipsterquotation-app:
+    image: jhipsterquotation
+    environment:
+      - _JAVA_OPTIONS=-Xmx512m -Xms256m
+      - SPRING_PROFILES_ACTIVE=prod,swagger
+      - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
+      - SPRING_DATA_MONGODB_URI=mongodb://jhipsterquotation-mongodb:27017
+      - SPRING_DATA_MONGODB_DATABASE=jhipsterQuotation
+      - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
+      - SPRING_DATA_JEST_URI=http://jhipsterquotation-elasticsearch:9200
+      - SPRING_ELASTICSEARCH_REST_URIS=http://jhipsterquotation-elasticsearch:9200
+    ports:
+      - 8080:8080
+  jhipsterquotation-mongodb:
+    extends:
+      file: mongodb.yml
+      service: jhipsterquotation-mongodb
+  jhipsterquotation-elasticsearch:
+    extends:
+      file: elasticsearch.yml
+      service: jhipsterquotation-elasticsearch
